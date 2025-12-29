@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Client Feedback Widget</title>
-    @vite(['resources/css/app.css'])
+    @vite(['resources/css/app.css', 'resources/js/widget.js'])
 </head>
 <body class="bg-gray-50 p-4">
 
