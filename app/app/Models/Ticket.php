@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
 
 class Ticket extends Model
 {
@@ -40,5 +42,25 @@ class Ticket extends Model
             ->addMediaCollection('attachments')
             ->useDisk('public');
     }
+
+    public function scopeToday(Builder $query): Builder
+    {
+        return $query->whereDate('created_at', Carbon::today());
+    }
+
+    public function scopeThisWeek(Builder $query): Builder
+    {
+        return $query->whereBetween(
+            'created_at',
+            [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]
+        );
+    }
+
+    public function scopeThisMonth(Builder $query): Builder
+    {
+        return $query->whereMonth('created_at', Carbon::now()->month);
+    }
+
+
 }
 

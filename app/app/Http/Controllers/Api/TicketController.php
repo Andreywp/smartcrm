@@ -28,17 +28,10 @@ class TicketController extends Controller
 
     public function statistics(): JsonResponse
     {
-        $today = Ticket::whereDate('created_at', Carbon::today())->count();
-        $week = Ticket::whereBetween(
-            'created_at',
-            [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]
-        )->count();
-        $month = Ticket::whereMonth('created_at', Carbon::now()->month)->count();
-
         return (new TicketStatisticsResource([
-            'today' => $today,
-            'week' => $week,
-            'month' => $month,
+            'today' => Ticket::today()->count(),
+            'week' => Ticket::thisWeek()->count(),
+            'month' => Ticket::thisMonth()->count(),
         ]))->response();
     }
 }
