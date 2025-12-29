@@ -36,4 +36,12 @@ class StoreTicketRequest extends FormRequest
             'files.*' => ['file', 'max:5120'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'phone.regex' => 'Phone number must have E.164 format.',
+        ];
+    }
+
 }
