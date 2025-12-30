@@ -11,7 +11,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 
-class Ticket extends Model
+class Ticket extends Model implements HasMedia
 {
     use HasFactory, HasFactory, InteractsWithMedia;
     protected $fillable = [
@@ -38,8 +38,7 @@ class Ticket extends Model
 
     public function registerMediaCollections(): void
     {
-        $this
-            ->addMediaCollection('attachments')
+        $this->addMediaCollection('attachments')
             ->useDisk('public');
     }
 

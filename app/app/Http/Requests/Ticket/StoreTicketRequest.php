@@ -32,8 +32,8 @@ class StoreTicketRequest extends FormRequest
             'subject' => ['required', 'string', 'max:255'],
             'message' => ['required', 'string'],
 
-//            'files' => ['nullable', 'array'],
-//            'files.*' => ['file', 'max:5120'],
+            'files' => ['nullable', 'array'],
+            'files.*' => ['file', 'max:5120'],
         ];
     }
 

@@ -36,6 +36,13 @@
             <textarea name="message" rows="4" class="w-full border p-2 rounded"></textarea>
         </div>
 
+        <input
+            type="file"
+            name="files[]"
+            multiple
+            class="w-full text-sm"
+        >
+
         <button
             type="submit"
             class="w-full bg-gray-800 text-white py-2 rounded"
