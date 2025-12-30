@@ -1,0 +1,71 @@
+openapi: 3.0.3
+info:
+  title: Mini CRM API
+  description: API for feedback widget and ticket statistics
+  version: 1.0.0
+
+servers:
+  - url: https://smartcrm
+
+paths:
+  /api/tickets:
+    post:
+      summary: Create a new ticket
+      tags:
+        - Tickets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - email
+                - phone
+                - subject
+                - message
+              properties:
+                name:
+                  type: string
+                  example: John Doe
+                email:
+                  type: string
+                  example: john@mail.com
+                phone:
+                  type: string
+                  example: +49123456789
+                subject:
+                  type: string
+                  example: Payment issue
+                message:
+                  type: string
+                  example: Payment does not work
+      responses:
+        '201':
+          description: Ticket created successfully
+        '422':
+          description: Validation error
+
+  /api/tickets/statistics:
+    get:
+      summary: Get ticket statistics
+      tags:
+        - Tickets
+      responses:
+        '200':
+          description: Ticket statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  today:
+                    type: integer
+                    example: 2
+                  week:
+                    type: integer
+                    example: 5
+                  month:
+                    type: integer
+                    example: 12
