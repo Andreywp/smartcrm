@@ -8,6 +8,12 @@
 <body class="p-6">
 
 <h1 class="text-xl font-semibold mb-4">Tickets</h1>
+<form method="POST" class="mb-4" action="{{ route('logout') }}">
+    @csrf
+    <button type="submit" class="border px-3">
+        Logout
+    </button>
+</form>
 
 <form method="GET" class="mb-4 flex flex-wrap gap-2 text-sm">
     <input type="date" name="date_from" value="{{ request('date_from') }}" class="border p-1">
@@ -31,6 +37,7 @@
 
     <button type="submit" class="border px-3">Apply</button>
     <a href="{{ route('admin.tickets.index') }}" class="border px-3">Reset</a>
+
 </form>
 
 <table class="w-full border text-sm">
@@ -55,7 +62,9 @@
             <td class="border p-2">{{ $ticket->subject }}</td>
             <td class="border p-2">{{ ucfirst($ticket->status) }}</td>
             <td class="border p-2">
-                <a href="#" class="underline">Open</a>
+                <a href="{{ route('admin.tickets.show', $ticket) }}" class="underline">
+                    Open
+                </a>
             </td>
         </tr>
     @endforeach
