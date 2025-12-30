@@ -3,7 +3,7 @@
 use App\Http\Controllers\Admin\AdminTicketController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'manager'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/tickets', [AdminTicketController::class, 'index'])
         ->name('tickets.index');
     Route::get('/tickets/{ticket}', [AdminTicketController::class, 'show'])
