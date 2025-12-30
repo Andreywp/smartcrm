@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Ticket;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Ticket;
+use Carbon\Carbon;
 
 class StoreTicketRequest extends FormRequest
 {
@@ -43,5 +45,28 @@ class StoreTicketRequest extends FormRequest
             'phone.regex' => 'Phone number must have E.164 format.',
         ];
     }
+
+    public function withValidator($validator): void
+    {
+        $validator->after(function ($validator) {
+            $email = $this->input('email');
+            $phone = $this->input('phone');
+
+            $exists = Ticket::whereHas('customer', function ($query) use ($email, $phone) {
+                $query->where('email', $email)
+                    ->orWhere('phone', $phone);
+            })
+                ->where('created_at', '>=', Carbon::now()->subDay())
+                ->exists();
+
+            if ($exists) {
+                $validator->errors()->add(
+                    'email',
+                    'Only one request per day is allowed for this email or phone number.'
+                );
+            }
+        });
+    }
+
 
 }
