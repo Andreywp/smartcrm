@@ -24,6 +24,7 @@ class Ticket extends Model implements HasMedia
 
     protected $casts = [
         'response_at' => 'datetime',
+        'status' => TicketStatus::class,
     ];
 
     public function customer(): BelongsTo

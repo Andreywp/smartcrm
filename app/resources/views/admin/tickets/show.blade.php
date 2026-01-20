@@ -37,7 +37,7 @@
     <select name="status" class="border p-1 mb-3">
         @foreach(\App\Enums\TicketStatus::cases() as $status)
             <option value="{{ $status->value }}"
-                @selected($ticket->status === $status->value)>
+                @selected($ticket->status->value === $status->value)>
                 {{ ucfirst($status->value) }}
             </option>
         @endforeach

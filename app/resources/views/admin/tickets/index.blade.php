@@ -60,7 +60,7 @@
             <td class="border p-2">{{ $ticket->customer->phone }}</td>
             <td class="border p-2">{{ $ticket->customer->email }}</td>
             <td class="border p-2">{{ $ticket->subject }}</td>
-            <td class="border p-2">{{ ucfirst($ticket->status) }}</td>
+            <td class="border p-2">{{ ucfirst($ticket->status->value) }}</td>
             <td class="border p-2">
                 <a href="{{ route('admin.tickets.show', $ticket) }}" class="underline">
                     Open

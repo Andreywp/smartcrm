@@ -43,10 +43,10 @@ class AdminTicketController extends Controller {
         ]);
 
         if (
-            $ticket->status !== TicketStatus::DONE->value &&
+            $ticket->status !== TicketStatus::DONE &&
             $request->status === TicketStatus::DONE->value
         ) {
-            $ticket->answered_at = Carbon::now();
+            $ticket->response_at = Carbon::now();
         }
 
         $ticket->status = $request->status;

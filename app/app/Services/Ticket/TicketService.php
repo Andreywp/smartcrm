@@ -39,9 +39,9 @@ class TicketService implements TicketServiceInterface
 
     public function updateStatus(Ticket $ticket, string $status): Ticket
     {
-        $ticket->status = $status;
+        $ticket->status = TicketStatus::from($status);
 
-        if ($status === TicketStatus::DONE->value) {
+        if ($ticket->status === TicketStatus::DONE) {
             $ticket->response_at = Carbon::now();
         }
 
