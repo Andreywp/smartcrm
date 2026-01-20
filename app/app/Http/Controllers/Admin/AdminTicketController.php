@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DTO\Ticket\UpdateTicketDto;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Ticket\UpdateTicketRequest;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use App\Enums\TicketStatus;
@@ -36,20 +38,22 @@ class AdminTicketController extends Controller {
         return view('admin.tickets.show', compact('ticket'));
     }
 
-    public function update(Request $request, Ticket $ticket)
+    public function update(UpdateTicketRequest $request, Ticket $ticket)
     {
-        $request->validate([
-            'status' => ['required', 'string'],
-        ]);
+//        $request->validate([
+//            'status' => ['required', 'string'],
+//        ]);
 
-        if (
-            $ticket->status !== TicketStatus::DONE &&
-            $request->status === TicketStatus::DONE->value
-        ) {
-            $ticket->response_at = Carbon::now();
-        }
+//        if (
+//            $ticket->status !== TicketStatus::DONE &&
+//            $request->status === TicketStatus::DONE->value
+//        ) {
+//            $ticket->response_at = Carbon::now();
+//        }
 
-        $ticket->status = $request->status;
+        $dto = UpdateTicketDto::fromArray($request->validated());
+
+        $ticket->status = $dto->status;
         $ticket->save();
 
         return back();
