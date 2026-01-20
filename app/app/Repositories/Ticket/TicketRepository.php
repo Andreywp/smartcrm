@@ -2,10 +2,13 @@
 
 namespace App\Repositories\Ticket;
 
+use App\Enums\TicketStatus;
+use App\Models\Customer;
 use App\Models\Ticket;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
-class EloquentTicketRepository implements TicketRepositoryInterface
+class TicketRepository implements TicketRepositoryInterface
 {
     public function paginateWithFilters(array $filters): LengthAwarePaginator
     {
@@ -39,5 +42,38 @@ class EloquentTicketRepository implements TicketRepositoryInterface
 
         return $query->paginate(2)->withQueryString();
     }
+
+
+    public function create(array $data): Ticket
+    {
+        return DB::transaction(function () use ($data) {
+
+            $customer = Customer::firstOrCreate(
+                ['phone' => $data['phone']],
+                [
+                    'name' => $data['name'],
+                    'email' => $data['email'] ?? null,
+                ]
+            );
+
+            $ticket = Ticket::create([
+                'customer_id' => $customer->id,
+                'subject' => $data['subject'],
+                'message' => $data['message'],
+                'status' => TicketStatus::NEW,
+            ]);
+
+            if (!empty($data['files'])) {
+                foreach ($data['files'] as $file) {
+                    $ticket
+                        ->addMedia($file)
+                        ->toMediaCollection('attachments');
+                }
+            }
+
+            return $ticket;
+        });
+    }
+
 }
 
